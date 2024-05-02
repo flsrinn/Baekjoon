@@ -1,40 +1,24 @@
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.math.BigInteger;
 
 public class Main {
-    private static int power(int num, int times) {
-        int result = 1;
-        while(times > 0) {
-            result *= num;
-            times--;
-        }
-        return result;
-    }
-
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        int L = scanner.nextInt();
-        String alphabet[] = new String[26];
-        char currentAlphabet = 'a';
-        for(int i=0; i<26; i++){
-            alphabet[i] = String.valueOf(currentAlphabet);
-            currentAlphabet++;
-        }
-        int hashSum = 0;
-        int count = 0;
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int L = Integer.parseInt(br.readLine());
+        BigInteger hashSum = BigInteger.valueOf(0);
+        BigInteger powerHash = BigInteger.valueOf(1);
         int alphabetIndex = 0;
-        String hashString = scanner.next();
+        String hashString = br.readLine();
         for(int i=0; i<L; i++) {
-            String letter = String.valueOf(hashString.charAt(i));
-            for (int j=0; j<26; j++) {
-                if(alphabet[j].equals(letter)) {
-                    alphabetIndex = j+1;
-                }
-            }
-            int result =  alphabetIndex * power(31, count);
-            hashSum += result;
-            count++;
+            char letter = hashString.charAt(i);
+            alphabetIndex = letter - 'a' + 1;
+            hashSum = hashSum.add(powerHash.multiply(BigInteger.valueOf(alphabetIndex)));
+            powerHash = powerHash.multiply(BigInteger.valueOf(31));
         }
+        hashSum = hashSum.remainder(BigInteger.valueOf(1234567891));
         System.out.println(hashSum);
-        scanner.close();
+        br.close();
     }
 }
