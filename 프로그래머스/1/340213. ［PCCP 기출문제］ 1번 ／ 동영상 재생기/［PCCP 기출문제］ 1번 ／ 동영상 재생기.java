@@ -45,9 +45,7 @@ class Solution {
         }
         
         int answer_min = answer_sec / 60;
-        if(answer_min != 0) {
-            answer_sec %= 60 * answer_min;
-        }
+        answer_sec %= 60;
         
         // 최종 결과
         if(answer_min < 10) { // 한 자리 숫자일 경우
